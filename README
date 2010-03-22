@@ -1,0 +1,12 @@
+Build scripts for ffmpeg on iPhone SDK 3.0 (and iPhone Simulator SDK).
+
+For background, follow this thread:
+http://lists.mplayerhq.hu/pipermail/ffmpeg-devel/2009-October/076618.html
+
+To make lipo'able libraries, you need to use gcc-4.2 with extra cflags instead of the specific arm-apple-darwin10-gcc-4.2.1 compiler.
+
+The armv6 arch doesn't seem to be working properly so you can force building via armv7 on your 3GS until we figure that out.
+
+The combine-ffmpeg-libs script will call lipo -create on each of the static libs.
+
+The current ffmpeg trunk doesn't build with arm, so had to go back to r22274 in order to build arm targets. The i386 build does work on trunk (r22610) when I tried last.

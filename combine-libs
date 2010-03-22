@@ -1,0 +1,23 @@
+#!/bin/sh
+
+BUILD_DIRS="ffmpeg-armv6 ffmpeg-armv7 ffmpeg-i386"
+
+BUILD_LIBS="libavcodec.a libavdevice.a libavfilter.a libavformat.a libavutil.a libpostproc.a libswscale.a"
+
+OUTPUT_DIR="ffmpeg-uarch"
+mkdir -p $OUTPUT_DIR/lib
+mkdir -p $OUTPUT_DIR/include
+
+for LIB in $BUILD_LIBS; do 
+  LIPO_CREATE=""
+  for DIR in $BUILD_DIRS; do
+    LIPO_CREATE="$LIPO_CREATE $DIR/dist/lib/$LIB"
+  done
+  OUTPUT="$OUTPUT_DIR/lib/$LIB"
+  echo "Creating: $OUTPUT"
+  lipo -create $LIPO_CREATE -output $OUTPUT
+done
+
+echo "Copying headers from ffmpeg-i386..."
+cp -R ffmpeg-i386/dist/include/* $OUTPUT_DIR/include
+

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+trap exit ERR
+
+DIR=ffmpeg-i386
+CONFIGURE_OPTIONS="--enable-gpl --enable-postproc --enable-swscale --enable-avfilter"
+
+# Works at r22610 as well
+svn co -r22274 svn://svn.ffmpeg.org/ffmpeg/trunk $DIR
+
+cd $DIR 
+mkdir -p dist
+
+./configure --cc=/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/i686-apple-darwin10-gcc-4.2.1 --as='gas-preprocessor.pl /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/i686-apple-darwin10-gcc-4.2.1' --sysroot=/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.0.sdk --extra-cflags="-mdynamic-no-pic" --prefix="dist" $CONFIGURE_OPTIONS
+
+make && make install
+
+echo "Installed: $DIR/dist"
