@@ -1,5 +1,7 @@
 Build scripts for ffmpeg on iPhone SDK 3.0 (and iPhone Simulator SDK).
 
+You'll need to get the latest gas-preprocessor and install it in /usr/local/bin or some other directory in your $PATH via http://github.com/yuvi/gas-preprocessor/
+
 For background, follow this thread:
 http://lists.mplayerhq.hu/pipermail/ffmpeg-devel/2009-October/076618.html
 
