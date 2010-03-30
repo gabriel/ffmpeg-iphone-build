@@ -5,7 +5,7 @@ trap exit ERR
 DIR=ffmpeg-armv6
 CONFIGURE_OPTIONS="--enable-gpl --enable-postproc --enable-swscale --enable-avfilter"
 
-svn co -r22274 svn://svn.ffmpeg.org/ffmpeg/trunk $DIR
+svn co -r22403 svn://svn.ffmpeg.org/ffmpeg/trunk $DIR
 
 cd $DIR
 mkdir -p dist

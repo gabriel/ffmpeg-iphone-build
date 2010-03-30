@@ -6,7 +6,7 @@ DIR=ffmpeg-i386
 CONFIGURE_OPTIONS="--enable-gpl --enable-postproc --enable-swscale --enable-avfilter"
 
 # Works at r22610 as well
-svn co -r22274 svn://svn.ffmpeg.org/ffmpeg/trunk $DIR
+svn co -r22403 svn://svn.ffmpeg.org/ffmpeg/trunk $DIR
 
 cd $DIR 
 mkdir -p dist
