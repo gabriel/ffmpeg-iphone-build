@@ -1,0 +1,24 @@
+#!/bin/sh
+
+ARCHS="armv6 armv7 i386"
+
+BUILD_LIBS="libx264.a"
+
+OUTPUT_DIR="x264-uarch"
+mkdir -p $OUTPUT_DIR/lib
+mkdir -p $OUTPUT_DIR/include
+
+for LIB in $BUILD_LIBS; do 
+  LIPO_CREATE=""
+  for ARCH in $ARCHS; do
+    LIPO_CREATE="$LIPO_CREATE-arch $ARCH x264-$ARCH/dist/lib/$LIB "
+  done
+  OUTPUT="$OUTPUT_DIR/lib/$LIB"
+  echo "Creating: $OUTPUT"
+  lipo -create $LIPO_CREATE -output $OUTPUT
+  lipo -info $OUTPUT
+done
+
+echo "Copying headers from x264-i386..."
+cp -R x264-i386/dist/include/* $OUTPUT_DIR/include
+

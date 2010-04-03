@@ -1,0 +1,16 @@
+#!/bin/sh
+
+trap exit ERR
+
+DIR=x264-armv6
+
+git clone git://git.videolan.org/x264.git $DIR
+
+cd $DIR
+mkdir -p dist
+
+CC=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 ./configure --host=arm-apple-darwin --sysroot=/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk --prefix='dist' --extra-cflags='-arch armv6' --extra-ldflags='-arch armv6' --enable-pic --disable-asm
+
+make && make install
+
+echo "Installed: $DIR/dist"

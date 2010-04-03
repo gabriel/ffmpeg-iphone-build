@@ -2,17 +2,28 @@
 
 trap exit ERR
 
-DIR=ffmpeg-i386
-CONFIGURE_OPTIONS="--enable-gpl --enable-postproc --enable-swscale --enable-avfilter"
+FFMPEG_DIR=ffmpeg-i386
+SCRIPT_DIR=$( (cd -P $(dirname $0) && pwd) )
 
-# Works at r22610 as well
-svn co -r22403 svn://svn.ffmpeg.org/ffmpeg/trunk $DIR
+# Build at 22403 to be consistent with arm builds, tho also works at trunk when I tested (r22610)
+svn co -r22403 svn://svn.ffmpeg.org/ffmpeg/trunk $FFMPEG_DIR
 
-cd $DIR 
+cd $FFMPEG_DIR 
 mkdir -p dist
 
-./configure --cc=/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/i686-apple-darwin10-gcc-4.2.1 --as='gas-preprocessor.pl /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/i686-apple-darwin10-gcc-4.2.1' --sysroot=/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.0.sdk --extra-cflags="-mdynamic-no-pic" --prefix="dist" $CONFIGURE_OPTIONS
+# Default configure options
+CONFIGURE_OPTIONS="--enable-gpl --enable-postproc --enable-swscale --enable-avfilter"
+
+# Add x264 if we built that
+X264_DIST="$SCRIPT_DIR/x264-i386/dist"
+if [ -d "$X264_DIST" ]; then
+  CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --enable-libx264 --extra-ldflags=-L$X264_DIST/lib --extra-cflags=-I$X264_DIST/include"
+fi
+
+echo "Configure options: $CONFIGURE_OPTIONS"
+
+./configure --cc=/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/i686-apple-darwin10-gcc-4.2.1 --as="$SCRIPT_DIR/gas-preprocessor.pl /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/i686-apple-darwin10-gcc-4.2.1" --sysroot=/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.0.sdk --extra-cflags="-mdynamic-no-pic" --prefix="dist" $CONFIGURE_OPTIONS
 
 make && make install
 
-echo "Installed: $DIR/dist"
+echo "Installed: $FFMPEG_DIR/dist"

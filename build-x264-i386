@@ -1,0 +1,18 @@
+#!/bin/sh
+
+trap exit ERR
+
+DIR=x264-i386
+
+git clone git://git.videolan.org/x264.git $DIR
+
+cd $DIR
+mkdir -p dist
+
+CC=/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/i686-apple-darwin10-gcc-4.2.1 ./configure --sysroot=/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.0.sdk --prefix='dist' 
+
+make && make install
+
+echo "Installed: $DIR/dist"
+
+
