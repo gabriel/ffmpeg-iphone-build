@@ -6,6 +6,7 @@ FFMPEG_DIR=ffmpeg-i386
 SCRIPT_DIR=$( (cd -P $(dirname $0) && pwd) )
 
 # Build at 22403 to be consistent with arm builds, tho also works at trunk when I tested (r22610)
+echo "Pulling r22403..."
 svn co -r22403 svn://svn.ffmpeg.org/ffmpeg/trunk $FFMPEG_DIR
 
 cd $FFMPEG_DIR 
@@ -18,6 +19,12 @@ CONFIGURE_OPTIONS="--enable-gpl --enable-postproc --enable-swscale --enable-avfi
 X264_DIST="$SCRIPT_DIR/x264-i386/dist"
 if [ -d "$X264_DIST" ]; then
   CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --enable-libx264 --extra-ldflags=-L$X264_DIST/lib --extra-cflags=-I$X264_DIST/include"
+fi
+
+# Add xvid if exists
+XVID_DIST="$SCRIPT_DIR/xvid-i386"
+if [ -d "$XVID_DIST" ]; then
+  CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --enable-libxvid --extra-ldflags=-L$XVID_DIST/lib --extra-cflags=-I$XVID_DIST/include"
 fi
 
 echo "Configure options: $CONFIGURE_OPTIONS"

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+trap exit ERR
+
+DIR=xvidcore
+SCRIPT_DIR=$( (cd -P $(dirname $0) && pwd) )
+DIST_DIR="$SCRIPT_DIR/xvid-i386"
+
+cd $SCRIPT_DIR/$DIR
+mkdir -p $DIST_DIR
+
+cd build/generic/
+
+FLAGS="-isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.0.sdk"
+
+CC=/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/i686-apple-darwin10-gcc-4.0.1 CFLAGS=$FLAGS LDFLAGS=$FLAGS ./configure --prefix="$DIST_DIR"
+
+make && make install
+
+echo "Installed: $DIST_DIR"

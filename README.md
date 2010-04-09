@@ -8,6 +8,9 @@ Build scripts for ffmpeg on iPhone SDK 3.0 (and iPhone Simulator SDK).
 - `build-x264-[arch]`: x264 build scripts for each arch; Run these before normal build script to include x264 support
 - `combine-x264-libs`: Creates universal binaries; Runs lipo -create on each of the x264 static libs
 
+- `build-xvid-[arch]`: xvid build scripts for each arch; Run these before normal build script to include xvid support
+
+
 ## Revision
 
 The current ffmpeg trunk doesn't build with arm, so had to go back to r22404 in order to build arm targets. The i386 build does work on trunk (r22610) when I tried last.

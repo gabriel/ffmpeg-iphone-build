@@ -5,6 +5,7 @@ trap exit ERR
 FFMPEG_DIR=ffmpeg-armv7
 SCRIPT_DIR=$( (cd -P $(dirname $0) && pwd) )
 
+echo "Pulling r22403..."
 svn co -r22403 svn://svn.ffmpeg.org/ffmpeg/trunk $FFMPEG_DIR
 
 cd $FFMPEG_DIR
@@ -13,10 +14,16 @@ mkdir -p dist
 # Default configure options
 CONFIGURE_OPTIONS="--enable-gpl --enable-postproc --enable-swscale --enable-avfilter"
 
-# Add x264 if we built that
-X264_DIST="$SCRIPT_DIR/x264-i386/dist"
+# Add x264 if exists
+X264_DIST="$SCRIPT_DIR/x264-armv7/dist"
 if [ -d "$X264_DIST" ]; then
   CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --enable-libx264 --extra-ldflags=-L$X264_DIST/lib --extra-cflags=-I$X264_DIST/include"
+fi
+
+# Add xvid if exists
+XVID_DIST="$SCRIPT_DIR/xvid-armv7"
+if [ -d "$XVID_DIST" ]; then
+  CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --enable-libxvid --extra-ldflags=-L$XVID_DIST/lib --extra-cflags=-I$XVID_DIST/include"
 fi
 
 echo "Configure options: $CONFIGURE_OPTIONS"
