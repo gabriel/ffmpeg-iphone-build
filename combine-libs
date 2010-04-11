@@ -1,5 +1,7 @@
 #!/bin/sh
 
+trap exit ERR
+
 ARCHS="armv6 armv7 i386"
 
 BUILD_LIBS="libavcodec.a libavdevice.a libavfilter.a libavformat.a libavutil.a libpostproc.a libswscale.a"
